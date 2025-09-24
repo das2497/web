@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>E-commerce Web Application Features</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .category {
+            margin-bottom: 3rem;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .category-icon {
+            background: #3b82f6;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .category-title {
+            font-size: 1.8rem;
+            color: #1d4ed8;
+            font-weight: 600;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card-content {
+            padding: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #1e40af;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-card h3 i {
+            margin-right: 10px;
+            color: #3b82f6;
+        }
+        
+        .feature-list {
+            list-style-type: none;
+            margin-left: 10px;
+        }
+        
+        .feature-list li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .feature-list li:before {
+            content: "•";
+            color: #3b82f6;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+        
+        /* Color variations for different categories */
+        .core .category-icon,
+        .core .feature-card { border-left-color: #3b82f6; }
+        .core .category-icon { background: #3b82f6; }
+        
+        .additional .category-icon,
+        .additional .feature-card { border-left-color: #10b981; }
+        .additional .category-icon { background: #10b981; }
+        
+        .advanced .category-icon,
+        .advanced .feature-card { border-left-color: #f59e0b; }
+        .advanced .category-icon { background: #f59e0b; }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .category-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>E-commerce Web Application Features</h1>
+            <p>Comprehensive functionality for modern online stores</p>
+        </div>
+
+        <div class="container">
+            <div class="category core">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h2 class="category-title">Core Features</h2>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-box"></i> Product
+                                Management</h3>
+                            <ul class="feature-list">
+                                <li>Product catalog</li>
+                                <li>Product details (description, images,
+                                    pricing, etc.)</li>
+                                <li>Product variations (size, color, etc.)</li>
+                                <li>Product reviews and ratings</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-shopping-cart"></i> Shopping
+                                Cart</h3>
+                            <ul class="feature-list">
+                                <li>Add/remove products</li>
+                                <li>Cart summary</li>
+                                <li>Cart abandonment recovery</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-cash-register"></i>
+                                Checkout</h3>
+                            <ul class="feature-list">
+                                <li>Payment gateway integration (e.g., PayPal,
+                                    Stripe)</li>
+                                <li>Shipping options and calculations</li>
+                                <li>Order summary and confirmation</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-users"></i> User
+                                Management</h3>
+                            <ul class="feature-list">
+                                <li>User registration and login</li>
+                                <li>User profile management</li>
+                                <li>Order history and tracking</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-clipboard-list"></i> Order
+                                Management</h3>
+                            <ul class="feature-list">
+                                <li>Order processing and fulfillment</li>
+                                <li>Order tracking and status updates</li>
+                                <li>Order cancellation and refund
+                                    management</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category additional">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <h2 class="category-title">Additional Features</h2>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-search"></i> Search and
+                                Filtering</h3>
+                            <ul class="feature-list">
+                                <li>Product search</li>
+                                <li>Filtering by category, price, brand,
+                                    etc.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-thumbs-up"></i> Product
+                                Recommendations</h3>
+                            <ul class="feature-list">
+                                <li>Related products</li>
+                                <li>Upselling and cross-selling</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-tags"></i> Promotions and
+                                Discounts</h3>
+                            <ul class="feature-list">
+                                <li>Coupons and promo codes</li>
+                                <li>Discounts and sales</li>
+                                <li>Loyalty programs</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-shipping-fast"></i> Payment and
+                                Shipping Options</h3>
+                            <ul class="feature-list">
+                                <li>Multiple payment gateways</li>
+                                <li>Shipping integrations (e.g., USPS, UPS)</li>
+                                <li>Shipping rates and estimates</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-warehouse"></i> Inventory
+                                Management</h3>
+                            <ul class="feature-list">
+                                <li>Stock tracking and alerts</li>
+                                <li>Low stock notifications</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-headset"></i> Customer
+                                Support</h3>
+                            <ul class="feature-list">
+                                <li>Contact form</li>
+                                <li>FAQ section</li>
+                                <li>Live chat or support ticket system</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-chart-bar"></i> Analytics and
+                                Reporting</h3>
+                            <ul class="feature-list">
+                                <li>Sales tracking and analytics</li>
+                                <li>Customer behavior analysis</li>
+                                <li>Product performance metrics</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-shield-alt"></i> Security and
+                                Compliance</h3>
+                            <ul class="feature-list">
+                                <li>SSL encryption</li>
+                                <li>PCI-DSS compliance</li>
+                                <li>Data protection and privacy policies</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category advanced">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h2 class="category-title">Advanced Features</h2>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-user-cog"></i>
+                                Personalization</h3>
+                            <ul class="feature-list">
+                                <li>Product recommendations based on user
+                                    behavior</li>
+                                <li>Customized content and offers</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-store"></i> Multi-Channel
+                                Selling</h3>
+                            <ul class="feature-list">
+                                <li>Integration with social media platforms</li>
+                                <li>Selling on multiple marketplaces (e.g.,
+                                    Amazon, eBay)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-mobile-alt"></i> Mobile
+                                Optimization</h3>
+                            <ul class="feature-list">
+                                <li>Responsive design</li>
+                                <li>Mobile-specific features and UI</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-card-content">
+                            <h3><i class="fas fa-plug"></i> Integration with
+                                Third-Party Services</h3>
+                            <ul class="feature-list">
+                                <li>Accounting and ERP integrations</li>
+                                <li>Shipping and logistics integrations</li>
+                                <li>Marketing and advertising integrations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 E-commerce Web Application Features | Comprehensive
+                Functionality for Online Stores</p>
+        </div>
+    </body>
+</html>

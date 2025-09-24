@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Web App Ideas</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .app-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+        }
+        
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .app-card-header {
+            padding: 20px 20px 15px;
+            color: white;
+            position: relative;
+        }
+        
+        .app-card-header i {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 1.8rem;
+            opacity: 0.7;
+        }
+        
+        .app-card-content {
+            padding: 20px;
+        }
+        
+        .app-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .app-card p {
+            color: #555;
+            font-size: 1rem;
+        }
+        
+        /* Color coding for different app categories */
+        .productivity { background: linear-gradient(135deg, #4b6cb7, #182848); }
+        .events { background: linear-gradient(135deg, #f46b45, #eea849); }
+        .finance { background: linear-gradient(135deg, #0ba360, #3cba92); }
+        .food { background: linear-gradient(135deg, #c471f5, #fa71cd); }
+        .social { background: linear-gradient(135deg, #7928ca, #ff0080); }
+        .education { background: linear-gradient(135deg, #007cf0, #00dfd8); }
+        .career { background: linear-gradient(135deg, #ff4b1f, #ff9068); }
+        .health { background: linear-gradient(135deg, #ff7e5f, #feb47b); }
+        .travel { background: linear-gradient(135deg, #1a2980, #26d0ce); }
+        .business { background: linear-gradient(135deg, #514a9d, #24c6dc); }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Web App Ideas</h1>
+            <p>Inspiration for your next development project</p>
+        </div>
+
+        <div class="container">
+            <div class="apps-grid">
+                <div class="app-card">
+                    <div class="app-card-header productivity">
+                        <h3>Task Management Tool</h3>
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="app-card-content">
+                        <p>Customizable task management platform for teams and
+                            individuals with advanced collaboration
+                            features.</p>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-card-header events">
+                        <h3>Virtual Event Planner</h3>
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="app-card-content">
+                        <p>Plan and manage virtual events with RSVPs,
+                            scheduling, and live streaming integration.</p>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-card-header finance">
+                        <h3>Personal Finance Tracker</h3>
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="app-card-content">
+                        <p>Track expenses, create budgets, set financial goals,
+                            and visualize your spending patterns.</p>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-card-header food">
+                        <h3>Recipe and Meal Planner</h3>
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="app-card-content">
+                        <p>Discover, save, and organize recipes with meal
+                            planning and automated grocery lists.</p>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-card-header social">
+                        <h3>Social Media Content Calendar</h3>
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <div class="app-card-content">
+                        <p>Plan and schedule social media content with post
+                            scheduling and performance analytics.</p>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-card-header education">
+                        <h3>Online Learning Platform</h3>
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="app-card-content">
+                        <p>Create and sell online courses with comprehensive
+                            course creation tools and student progress
+                            tracking.</p>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-card-header career">
+                        <h3>Job Board and Applicant Tracking System</h3>
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="app-card-content">
+                        <p>Post job openings and track applicant submissions
+                            with resume parsing and candidate matching.</p>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-card-header health">
+                        <h3>Health and Wellness Tracker</h3>
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div class="app-card-content">
+                        <p>Track fitness goals, monitor nutrition, manage
+                            stress, and maintain overall wellness.</p>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-card-header travel">
+                        <h3>Travel Itinerary Builder</h3>
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <div class="app-card-content">
+                        <p>Plan and book travel itineraries with integrated
+                            flight and hotel booking options.</p>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-card-header business">
+                        <h3>Customer Feedback and Review System</h3>
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="app-card-content">
+                        <p>Collect and manage customer feedback with review
+                            aggregation and sentiment analysis.</p>
+                    </div>
+                </div>
+                
+                <a href="ecommerce_web_app.html" style="text-decoration: none; color: inherit;">
+                    <div class="app-card">
+                        <div class="app-card-header business">
+                            <h3>E-commerce web app</h3>
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="app-card-content">
+                            <p></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 Web App Ideas | Inspiration for Developers</p>
+        </div>
+    </body>
+</html>

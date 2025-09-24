@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Awesome Icons Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .search-container {
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        #searchInput:focus {
+            border-color: #6e8efb;
+            box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.2);
+            outline: none;
+        }
+        
+        .category-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .category-btn {
+            padding: 8px 16px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background-color: #6e8efb;
+            color: white;
+            border-color: #6e8efb;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #6e8efb;
+            color: #444;
+        }
+        
+        .icons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .icon-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .icon-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #6e8efb;
+        }
+        
+        .icon-name {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            word-break: break-word;
+        }
+        
+        .copy-btn {
+            background-color: #f1f3f5;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background-color: #6e8efb;
+            color: white;
+        }
+        
+        .copied-alert {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .copied-alert.show {
+            opacity: 1;
+        }
+        
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .icons-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .icons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Font Awesome Icons Gallery</h1>
+            <p class="description">Browse and copy icon names with a single click</p>
+        </header>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search icons by name...">
+        </div>
+        
+        <div class="category-filter">
+            <button class="category-btn active" data-category="all">All Icons</button>
+            <button class="category-btn" data-category="web-application">Web Application</button>
+            <button class="category-btn" data-category="file-type">File Type</button>
+            <button class="category-btn" data-category="spinner">Spinner</button>
+            <button class="category-btn" data-category="form-control">Form Control</button>
+            <button class="category-btn" data-category="payment">Payment</button>
+            <button class="category-btn" data-category="chart">Chart</button>
+            <button class="category-btn" data-category="currency">Currency</button>
+            <button class="category-btn" data-category="text-editor">Text Editor</button>
+            <button class="category-btn" data-category="directional">Directional</button>
+            <button class="category-btn" data-category="video-player">Video Player</button>
+            <button class="category-btn" data-category="brand">Brand</button>
+            <button class="category-btn" data-category="medical">Medical</button>
+        </div>
+        
+        <div id="iconsContainer">
+            <!-- Web Application Icons -->
+            <h2 class="section-title" id="web-application">Web Application Icons</h2>
+            <div class="icons-grid" data-category="web-application">
+                <div class="icon-card">
+                    <i class="fa fa-adjust icon"></i>
+                    <div class="icon-name">fa-adjust</div>
+                    <button class="copy-btn" data-name="fa-adjust">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-anchor icon"></i>
+                    <div class="icon-name">fa-anchor</div>
+                    <button class="copy-btn" data-name="fa-anchor">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-archive icon"></i>
+                    <div class="icon-name">fa-archive</div>
+                    <button class="copy-btn" data-name="fa-archive">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-area-chart icon"></i>
+                    <div class="icon-name">fa-area-chart</div>
+                    <button class="copy-btn" data-name="fa-area-chart">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-arrows icon"></i>
+                    <div class="icon-name">fa-arrows</div>
+                    <button class="copy-btn" data-name="fa-arrows">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-arrows-h icon"></i>
+                    <div class="icon-name">fa-arrows-h</div>
+                    <button class="copy-btn" data-name="fa-arrows-h">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-arrows-v icon"></i>
+                    <div class="icon-name">fa-arrows-v</div>
+                    <button class="copy-btn" data-name="fa-arrows-v">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-asterisk icon"></i>
+                    <div class="icon-name">fa-asterisk</div>
+                    <button class="copy-btn" data-name="fa-asterisk">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-at icon"></i>
+                    <div class="icon-name">fa-at</div>
+                    <button class="copy-btn" data-name="fa-at">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-automobile icon"></i>
+                    <div class="icon-name">fa-automobile</div>
+                    <button class="copy-btn" data-name="fa-automobile">Copy Name</button>
+                </div>
+                <!-- More web application icons would go here -->
+            </div>
+            
+            <!-- File Type Icons -->
+            <h2 class="section-title" id="file-type">File Type Icons</h2>
+            <div class="icons-grid" data-category="file-type">
+                <div class="icon-card">
+                    <i class="fa fa-file icon"></i>
+                    <div class="icon-name">fa-file</div>
+                    <button class="copy-btn" data-name="fa-file">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-file-archive-o icon"></i>
+                    <div class="icon-name">fa-file-archive-o</div>
+                    <button class="copy-btn" data-name="fa-file-archive-o">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-file-audio-o icon"></i>
+                    <div class="icon-name">fa-file-audio-o</div>
+                    <button class="copy-btn" data-name="fa-file-audio-o">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-file-code-o icon"></i>
+                    <div class="icon-name">fa-file-code-o</div>
+                    <button class="copy-btn" data-name="fa-file-code-o">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-file-excel-o icon"></i>
+                    <div class="icon-name">fa-file-excel-o</div>
+                    <button class="copy-btn" data-name="fa-file-excel-o">Copy Name</button>
+                </div>
+                <!-- More file type icons would go here -->
+            </div>
+            
+            <!-- Spinner Icons -->
+            <h2 class="section-title" id="spinner">Spinner Icons</h2>
+            <div class="icons-grid" data-category="spinner">
+                <div class="icon-card">
+                    <i class="fa fa-circle-o-notch icon"></i>
+                    <div class="icon-name">fa-circle-o-notch</div>
+                    <button class="copy-btn" data-name="fa-circle-o-notch">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-cog icon"></i>
+                    <div class="icon-name">fa-cog</div>
+                    <button class="copy-btn" data-name="fa-cog">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-refresh icon"></i>
+                    <div class="icon-name">fa-refresh</div>
+                    <button class="copy-btn" data-name="fa-refresh">Copy Name</button>
+                </div>
+                <div class="icon-card">
+                    <i class="fa fa-spinner icon"></i>
+                    <div class="icon-name">fa-spinner</div>
+                    <button class="copy-btn" data-name="fa-spinner">Copy Name</button>
+                </div>
+            </div>
+            
+            <!-- More sections would follow the same pattern -->
+            
+        </div>
+    </div>
+    
+    <div class="copied-alert" id="copiedAlert">Icon name copied!</div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            const searchInput = document.getElementById('searchInput');
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const iconCards = document.querySelectorAll('.icon-card');
+            const copiedAlert = document.getElementById('copiedAlert');
+            
+            // Copy functionality
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const iconName = this.getAttribute('data-name');
+                    navigator.clipboard.writeText(iconName).then(() => {
+                        // Show success message
+                        copiedAlert.classList.add('show');
+                        setTimeout(() => {
+                            copiedAlert.classList.remove('show');
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                    });
+                });
+            });
+            
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                iconCards.forEach(card => {
+                    const iconName = card.querySelector('.icon-name').textContent.toLowerCase();
+                    if (iconName.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide section titles based on visible icons
+                document.querySelectorAll('.section-title').forEach(title => {
+                    const sectionId = title.getAttribute('id');
+                    const sectionGrid = document.querySelector(`.icons-grid[data-category="${sectionId}"]`);
+                    const visibleIcons = sectionGrid.querySelectorAll('.icon-card[style="display: block"], .icon-card:not([style])');
+                    
+                    if (visibleIcons.length > 0) {
+                        title.style.display = 'block';
+                    } else {
+                        title.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Category filter functionality
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    
+                    if (category === 'all') {
+                        // Show all icons and sections
+                        iconCards.forEach(card => card.style.display = 'block');
+                        document.querySelectorAll('.section-title').forEach(title => {
+                            title.style.display = 'block';
+                        });
+                    } else {
+                        // Hide all icons and sections first
+                        iconCards.forEach(card => card.style.display = 'none');
+                        document.querySelectorAll('.section-title').forEach(title => {
+                            title.style.display = 'none';
+                        });
+                        
+                        // Show selected category
+                        const selectedGrid = document.querySelector(`.icons-grid[data-category="${category}"]`);
+                        if (selectedGrid) {
+                            selectedGrid.querySelectorAll('.icon-card').forEach(card => {
+                                card.style.display = 'block';
+                            });
+                            document.getElementById(category).style.display = 'block';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

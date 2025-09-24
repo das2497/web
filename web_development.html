@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Web Development Technologies</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 40px;
+        }
+        
+        .tech-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .card-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 60%);
+            transform: rotate(30deg);
+        }
+        
+        .logo {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+            z-index: 1;
+        }
+        
+        .card-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+        
+        .card-content {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .card-content p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        /* Color coding for different technologies */
+        .html .card-header { background: linear-gradient(135deg, #e34f26 0%, #f06529 100%); }
+        .css .card-header { background: linear-gradient(135deg, #264de4 0%, #2965f1 100%); }
+        .js .card-header { background: linear-gradient(135deg, #f0db4f 0%, #f7df1e 100%); }
+        .js .card-header h2 { color: #323330; }
+        .php .card-header { background: linear-gradient(135deg, #777bb3 0%, #8892bf 100%); }
+        .laravel .card-header { background: linear-gradient(135deg, #ff2d20 0%, #b21f2d 100%); }
+        .react .card-header { background: linear-gradient(135deg, #61dafb 0%, #00d8ff 100%); }
+        .react .card-header h2 { color: #282c34; }
+        .node .card-header { background: linear-gradient(135deg, #339933 0%, #66cc33 100%); }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .tech-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .card-header {
+                height: 160px;
+                padding: 20px 15px;
+            }
+            
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .card-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Web Development Technologies</h1>
+            <p>Explore the essential tools and frameworks for modern web
+                development</p>
+        </div>
+
+        <div class="tech-grid">
+            <a href="#" class="tech-card html">
+                <div class="card-header">
+                    <div class="logo">
+                        <i class="fab fa-html5"></i>
+                    </div>
+                    <h2>HTML</h2>
+                </div>
+                <div class="card-content">
+                    <p>The standard markup language for documents designed to be
+                        displayed in a web browser.</p>
+                </div>
+            </a>
+
+            <a href="#" class="tech-card css">
+                <div class="card-header">
+                    <div class="logo">
+                        <i class="fab fa-css3-alt"></i>
+                    </div>
+                    <h2>CSS</h2>
+                </div>
+                <div class="card-content">
+                    <p>Style sheet language used for describing the presentation
+                        of a document written in HTML.</p>
+                </div>
+            </a>
+
+            <a href="#" class="tech-card js">
+                <div class="card-header">
+                    <div class="logo">
+                        <i class="fab fa-js-square"></i>
+                    </div>
+                    <h2>JavaScript</h2>
+                </div>
+                <div class="card-content">
+                    <p>Programming language that enables interactive web pages
+                        and is an essential part of web applications.</p>
+                </div>
+            </a>
+
+            <a href="#" class="tech-card php">
+                <div class="card-header">
+                    <div class="logo">
+                        <i class="fab fa-php"></i>
+                    </div>
+                    <h2>PHP</h2>
+                </div>
+                <div class="card-content">
+                    <p>Server-side scripting language designed for web
+                        development but also used as a general-purpose
+                        language.</p>
+                </div>
+            </a>
+
+            <a href="laravel.html" class="tech-card laravel">
+                <div class="card-header">
+                    <div class="logo">
+                        <i class="fab fa-laravel"></i>
+                    </div>
+                    <h2>Laravel</h2>
+                </div>
+                <div class="card-content">
+                    <p>The PHP Framework for Web Artisans with expressive,
+                        elegant syntax and powerful tools.</p>
+                </div>
+            </a>
+
+            <a href="#" class="tech-card react">
+                <div class="card-header">
+                    <div class="logo">
+                        <i class="fab fa-react"></i>
+                    </div>
+                    <h2>React</h2>
+                </div>
+                <div class="card-content">
+                    <p>JavaScript library for building user interfaces,
+                        particularly single-page applications.</p>
+                </div>
+            </a>
+
+            <a href="#" class="tech-card node">
+                <div class="card-header">
+                    <div class="logo">
+                        <i class="fab fa-node-js"></i>
+                    </div>
+                    <h2>Node.js</h2>
+                </div>
+                <div class="card-content">
+                    <p>JavaScript runtime built on Chrome's V8 JavaScript engine
+                        for building server-side applications.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 Web Development Technologies | All rights reserved</p>
+        </div>
+    </body>
+</html>
