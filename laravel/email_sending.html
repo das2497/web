@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Email Sending in Laravel</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ff2d20 0%, #b21f2d 100%);
+            padding: 40px;
+            text-align: center;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: #ff2d20;
+            margin-bottom: 20px;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .section p {
+            margin-bottom: 20px;
+            color: #4a5568;
+        }
+        
+        .step {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .step-content {
+            background: #f8fafc;
+            border-left: 4px solid #ff2d20;
+            border-radius: 0 8px 8px 0;
+            padding: 25px;
+        }
+        
+        .step h3 {
+            font-size: 1.4rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .step p {
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            position: relative;
+            padding-right: 70px;
+        }
+        
+        .code-block code {
+            display: block;
+            white-space: pre-wrap;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        .copy-btn.copied {
+            background: #48bb78;
+        }
+        
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff2d20, transparent);
+            margin: 40px 0;
+            border: none;
+        }
+        
+        .warning {
+            background: #fed7d7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #f56565;
+        }
+        
+        .warning h3 {
+            color: #c53030;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .warning h3 i {
+            margin-right: 10px;
+        }
+        
+        .tip {
+            background: #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #fdcb6e;
+        }
+        
+        .tip h3 {
+            color: #d35400;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tip h3 i {
+            margin-right: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .code-block {
+                padding: 15px;
+                padding-right: 60px;
+            }
+            
+            .copy-btn {
+                top: 10px;
+                right: 10px;
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Email Sending in Laravel</h1>
+                <p>Step-by-step guide to sending emails using Laravel's built-in
+                    Mail functionality</p>
+            </div>
+
+            <div class="content">
+                <div class="section">
+                    <p>Sending emails in Laravel is straightforward using the
+                        built-in <strong>Mail</strong> functionality. Here's how
+                        you can do it step by step:</p>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section">
+                    <h2 class="section-title">1. Configure Mail Settings</h2>
+                    <p>Laravel uses <strong>Mailtrap</strong>, SMTP, Sendmail,
+                        Amazon SES, and other services for sending emails. Set
+                        up your <code>.env</code> file with your mail
+                        configuration:</p>
+
+                    <div class="step">
+                        <div class="step-content">
+                            <h3>Mailtrap Configuration</h3>
+                            <div class="code-block">
+                                <code>MAIL_MAILER=smtp
+                                    MAIL_HOST=smtp.mailtrap.io
+                                    MAIL_PORT=2525
+                                    MAIL_USERNAME=your_mailtrap_username
+                                    MAIL_PASSWORD=your_mailtrap_password
+                                    MAIL_ENCRYPTION=tls
+                                    MAIL_FROM_ADDRESS=your@email.com
+                                    MAIL_FROM_NAME="Your App Name"</code>
+                                <button class="copy-btn"
+                                    data-code="MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_mailtrap_username
+MAIL_PASSWORD=your_mailtrap_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=your@email.com
+MAIL_FROM_NAME=&quot;Your App Name&quot;">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-content">
+                            <h3>Gmail SMTP Configuration</h3>
+                            <div class="code-block">
+                                <code>MAIL_MAILER=smtp
+                                    MAIL_HOST=smtp.gmail.com
+                                    MAIL_PORT=587
+                                    MAIL_USERNAME=your_gmail@gmail.com
+                                    MAIL_PASSWORD=your_gmail_app_password
+                                    MAIL_ENCRYPTION=tls
+                                    MAIL_FROM_ADDRESS=your_gmail@gmail.com
+                                    MAIL_FROM_NAME="Your Name"</code>
+                                <button class="copy-btn"
+                                    data-code="MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your_gmail@gmail.com
+MAIL_PASSWORD=your_gmail_app_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=your_gmail@gmail.com
+MAIL_FROM_NAME=&quot;Your Name&quot;">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            <div class="warning">
+                                <h3><i class="fas fa-exclamation-triangle"></i>
+                                    Important</h3>
+                                <p>If using Gmail, enable <strong>Less Secure
+                                        Apps</strong> or generate an <strong>App
+                                        Password</strong> in Google security
+                                    settings.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section">
+                    <h2 class="section-title">2. Create Mailable Class</h2>
+                    <p>Run the following command to generate a Mailable
+                        class:</p>
+
+                    <div class="code-block">
+                        <code>php artisan make:mail MyEmail</code>
+                        <button class="copy-btn"
+                            data-code="php artisan make:mail MyEmail">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+
+                    <p>This creates <code>app/Mail/MyEmail.php</code>. Modify it
+                        like this:</p>
+
+                    <div class="code-block">
+                        <code>namespace App\Mail;
+
+                            use Illuminate\Bus\Queueable;
+                            use Illuminate\Contracts\Queue\ShouldQueue;
+                            use Illuminate\Mail\Mailable;
+                            use Illuminate\Queue\SerializesModels;
+
+                            class MyEmail extends Mailable
+                            {
+                            use Queueable, SerializesModels;
+
+                            public $details; // Data to pass to the email view
+
+                            public function __construct($details)
+                            {
+                            $this->details = $details;
+                            }
+
+                            public function build()
+                            {
+                            return $this->from('your@email.com')
+                            ->subject('Test Email')
+                            ->view('emails.myemail')
+                            ->with('details', $this->details);
+                            }
+                            }</code>
+                        <button class="copy-btn" data-code="namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+
+class MyEmail extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public $details; // Data to pass to the email view
+
+    public function __construct($details)
+    {
+        $this->details = $details;
+    }
+
+    public function build()
+    {
+        return $this->from('your@email.com')
+            ->subject('Test Email')
+            ->view('emails.myemail')
+            ->with('details', $this->details);
+    }
+}">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section">
+                    <h2 class="section-title">3. Create Email Blade View</h2>
+                    <p>Inside
+                        <code>resources/views/emails/myemail.blade.php</code>:</p>
+
+                    <div class="code-block">
+                        <code>&lt;!DOCTYPE html&gt;
+                            &lt;html&gt;
+                            &lt;head&gt;
+                            &lt;title&gt;Email from Laravel&lt;/title&gt;
+                            &lt;/head&gt;
+                            &lt;body&gt;
+                            &lt;h1&gt;{{ $details['title'] }}&lt;/h1&gt;
+                            &lt;p&gt;{{ $details['message'] }}&lt;/p&gt;
+                            &lt;/body&gt;
+                            &lt;/html&gt;</code>
+                        <button class="copy-btn"
+                            data-code="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Email from Laravel&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;{{ $details['title'] }}&lt;/h1&gt;
+        &lt;p&gt;{{ $details['message'] }}&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section">
+                    <h2 class="section-title">4. Send Email</h2>
+                    <p>Now, send an email from your controller:</p>
+
+                    <div class="code-block">
+                        <code>use App\Mail\MyEmail;
+                            use Illuminate\Support\Facades\Mail;
+
+                            public function sendEmail()
+                            {
+                            $details = [
+                            'title' => 'Welcome to Laravel Mail',
+                            'message' => 'This is a test email from Laravel.'
+                            ];
+
+                            Mail::to('recipient@email.com')->send(new
+                            MyEmail($details));
+
+                            return "Email sent successfully!";
+                            }</code>
+                        <button class="copy-btn"
+                            data-code="use App\Mail\MyEmail;
+use Illuminate\Support\Facades\Mail;
+
+public function sendEmail()
+{
+    $details = [
+        'title' => 'Welcome to Laravel Mail',
+        'message' => 'This is a test email from Laravel.'
+    ];
+
+    Mail::to('recipient@email.com')->send(new MyEmail($details));
+
+    return &quot;Email sent successfully!&quot;
+}">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section">
+                    <h2 class="section-title">5. Testing Email</h2>
+                    <p>Run your Laravel project and hit the route that triggers
+                        <code>sendEmail()</code>. If everything is set up
+                        correctly, the recipient should receive the email.</p>
+
+                    <div class="tip">
+                        <h3><i class="fas fa-lightbulb"></i> Pro Tip</h3>
+                        <p>Would you like to queue emails for better
+                            performance? 🚀 Use
+                            <code>Mail::to('recipient@email.com')->queue(new
+                                MyEmail($details));</code> instead of
+                            <code>send()</code>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 Laravel Email Tutorial | PHP Web Development</p>
+        </div>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add copy functionality to all copy buttons
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const code = this.getAttribute('data-code');
+                    
+                    // Create a temporary textarea to hold the code
+                    const textarea = document.createElement('textarea');
+                    textarea.value = code;
+                    document.body.appendChild(textarea);
+                    
+                    // Select and copy the text
+                    textarea.select();
+                    document.execCommand('copy');
+                    
+                    // Remove the textarea
+                    document.body.removeChild(textarea);
+                    
+                    // Change button text to indicate success
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    this.classList.add('copied');
+                    
+                    // Revert after 2 seconds
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.classList.remove('copied');
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+    </body>
+</html>

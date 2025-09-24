@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Google Authentication in Laravel</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4285F4 0%, #34A853 100%);
+            padding: 40px;
+            text-align: center;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: #4285F4;
+            margin-bottom: 20px;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .section p {
+            margin-bottom: 20px;
+            color: #4a5568;
+        }
+        
+        .step {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .step-content {
+            background: #f8fafc;
+            border-left: 4px solid #4285F4;
+            border-radius: 0 8px 8px 0;
+            padding: 25px;
+        }
+        
+        .step h3 {
+            font-size: 1.4rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .step p {
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            position: relative;
+            padding-right: 70px;
+        }
+        
+        .code-block code {
+            display: block;
+            white-space: pre-wrap;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        .copy-btn.copied {
+            background: #48bb78;
+        }
+        
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #4285F4, transparent);
+            margin: 40px 0;
+            border: none;
+        }
+        
+        .warning {
+            background: #fed7d7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #f56565;
+        }
+        
+        .warning h3 {
+            color: #c53030;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .warning h3 i {
+            margin-right: 10px;
+        }
+        
+        .tip {
+            background: #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #fdcb6e;
+        }
+        
+        .tip h3 {
+            color: #d35400;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tip h3 i {
+            margin-right: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .code-block {
+                padding: 15px;
+                padding-right: 60px;
+            }
+            
+            .copy-btn {
+                top: 10px;
+                right: 10px;
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Google Authentication in Laravel</h1>
+                <p>Step-by-step guide to implementing Google OAuth
+                    authentication using Laravel Socialite</p>
+            </div>
+
+            <div class="content">
+                <div class="section">
+                    <p>To authenticate users by Gmail in a Laravel application,
+                        the typical and recommended way is to use Laravel
+                        Socialite, which is an official Laravel package
+                        providing OAuth authentication with Google and other
+                        providers.</p>
+                    <p>Here is a concise step-by-step guide on how to set up
+                        Gmail authentication in Laravel using Socialite:</p>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section">
+                    <h2 class="section-title">1. Set up a Google Cloud
+                        Project</h2>
+
+                    <div class="step">
+                        <div class="step-content">
+                            <h3>Create and Configure Google Cloud Project</h3>
+                            <p>Go to the <a
+                                    href="https://console.cloud.google.com/"
+                                    target="_blank" 
+                                    style="text-decoration: none; font-weight: bold; color: darkblue;">Google Cloud
+                                    Console</a>:</p>
+                            <ol>
+                                <li>Create a new project</li>
+                                <li>Navigate to "APIs & Services" >
+                                    "Credentials"</li>
+                                <li>Configure the OAuth consent screen (external
+                                    for public use)</li>
+                                <li>Create OAuth client credentials for a Web
+                                    Application</li>
+                                <li>Add your authorized redirect URI (e.g.,
+                                    <code>http://your-app-url.com/auth/google/callback</code>
+                                    or
+                                    <code>http://127.0.0.1:8000/auth/google/callback</code>
+                                    for local testing)</li>
+                                <li>Copy the generated Client ID and Client
+                                    Secret</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section">
+                    <h2 class="section-title">2. Install Laravel Socialite</h2>
+
+                    <div class="step">
+                        <div class="step-content">
+                            <h3>Install via Composer</h3>
+                            <p>Run the following composer command in your
+                                Laravel project:</p>
+                            <div class="code-block">
+                                <code>composer require laravel/socialite</code>
+                                <button class="copy-btn"
+                                    data-code="composer require laravel/socialite">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section">
+                    <h2 class="section-title">3. Configure Socialite</h2>
+
+                    <div class="step">
+                        <div class="step-content">
+                            <h3>Add Google Credentials to .env</h3>
+                            <p>Add your Google Client ID, Client Secret, and
+                                Redirect URI to your <code>.env</code> file:</p>
+                            <div class="code-block">
+                                <code>GOOGLE_CLIENT_ID=your-google-client-id
+                                    GOOGLE_CLIENT_SECRET=your-google-client-secret
+                                    GOOGLE_REDIRECT=http://your-app-url.com/auth/google/callback</code>
+                                <button class="copy-btn"
+                                    data-code="GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GOOGLE_REDIRECT=http://your-app-url.com/auth/google/callback">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-content">
+                            <h3>Update config/services.php</h3>
+                            <p>Add the Google configuration to your
+                                <code>config/services.php</code> file:</p>
+                            <div class="code-block">
+                                <code>'google' => [
+                                    'client_id' => env('GOOGLE_CLIENT_ID'),
+                                    'client_secret' =>
+                                    env('GOOGLE_CLIENT_SECRET'),
+                                    'redirect' => env('GOOGLE_REDIRECT'),
+                                    ],</code>
+                                <button class="copy-btn"
+                                    data-code="&quot;google&quot; =&gt; [
+    'client_id' =&gt; env('GOOGLE_CLIENT_ID'),
+    'client_secret' =&gt; env('GOOGLE_CLIENT_SECRET'),
+    'redirect' =&gt; env('GOOGLE_REDIRECT'),
+],">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section">
+                    <h2 class="section-title">4. Create Migration to Add Google
+                        ID Column</h2>
+
+                    <div class="step">
+                        <div class="step-content">
+                            <h3>Create Migration</h3>
+                            <p>Run the following command to create a
+                                migration:</p>
+                            <div class="code-block">
+                                <code>php artisan make:migration
+                                    add_google_id_to_users_table
+                                    --table=users</code>
+                                <button class="copy-btn"
+                                    data-code="php artisan make:migration add_google_id_to_users_table --table=users">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-content">
+                            <h3>Update Migration File</h3>
+                            <p>In the migration file:</p>
+                            <div class="code-block">
+                                <code>Schema::table('users', function (Blueprint
+                                    $table) {
+                                    $table->string('google_id')->nullable()->unique();
+                                    });</code>
+                                <button class="copy-btn"
+                                    data-code="Schema::table('users', function (Blueprint $table) {
+    $table->string('google_id')-&gt;nullable()-&gt;unique();
+});">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-content">
+                            <h3>Run Migration</h3>
+                            <p>Execute the migration to update your users
+                                table:</p>
+                            <div class="code-block">
+                                <code>php artisan migrate</code>
+                                <button class="copy-btn"
+                                    data-code="php artisan migrate">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section">
+                    <h2 class="section-title">5. Create Controller for Google
+                        Authentication</h2>
+
+                    <div class="step">
+                        <div class="step-content">
+                            <h3>Create GoogleController</h3>
+                            <p>Create a controller to handle Google
+                                authentication:</p>
+                            <div class="code-block">
+                                <code>namespace App\Http\Controllers;
+
+                                    use Laravel\Socialite\Facades\Socialite;
+                                    use App\Models\User;
+                                    use Illuminate\Support\Facades\Auth;
+                                    use Exception;
+
+                                    class GoogleController extends Controller
+                                    {
+                                    public function redirectToGoogle()
+                                    {
+                                    return
+                                    Socialite::driver('google')->redirect();
+                                    }
+
+                                    public function handleGoogleCallback()
+                                    {
+                                    try {
+                                    $googleUser =
+                                    Socialite::driver('google')->user();
+                                    $user = User::where('google_id',
+                                    $googleUser->id)->first();
+
+                                    if ($user) {
+                                    Auth::login($user);
+                                    return redirect()->intended('home');
+                                    } else {
+                                    $newUser = User::updateOrCreate(
+                                    ['email' => $googleUser->email],
+                                    [
+                                    'name' => $googleUser->name,
+                                    'google_id' => $googleUser->id,
+                                    'password' => bcrypt('dummy_password'), //
+                                    or random password
+                                    ]
+                                    );
+                                    Auth::login($newUser);
+                                    return redirect()->intended('home');
+                                    }
+                                    } catch (Exception $e) {
+                                    return
+                                    redirect('/login')->withErrors('Unable to login using Google. Please try again.');
+                                    }
+                                    }
+                                    }</code>
+                                <button class="copy-btn"
+                                    data-code="namespace App\Http\Controllers;
+
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Exception;
+
+class GoogleController extends Controller
+{
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')-&gt;redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')-&gt;user();
+            $user = User::where('google_id', $googleUser-&gt;id)-&gt;first();
+
+            if ($user) {
+                Auth::login($user);
+                return redirect()-&gt;intended('home');
+            } else {
+                $newUser = User::updateOrCreate(
+                    ['email' =&gt; $googleUser-&gt;email],
+                    [
+                        'name' =&gt; $googleUser-&gt;name,
+                        'google_id' =&gt; $googleUser-&gt;id,
+                        'password' =&gt; bcrypt('dummy_password'), // or random password
+                    ]
+                );
+                Auth::login($newUser);
+                return redirect()-&gt;intended('home');
+            }
+        } catch (Exception $e) {
+            return redirect('/login')-&gt;withErrors('Unable to login using Google. Please try again.');
+        }
+    }
+}">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section">
+                    <h2 class="section-title">6. Define Routes</h2>
+
+                    <div class="step">
+                        <div class="step-content">
+                            <h3>Add Routes to routes/web.php</h3>
+                            <p>Add the following routes to your web routes
+                                file:</p>
+                            <div class="code-block">
+                                <code>use App\Http\Controllers\GoogleController;
+
+                                    Route::get('auth/google',
+                                    [GoogleController::class,
+                                    'redirectToGoogle'])->name('auth.google');
+                                    Route::get('auth/google/callback',
+                                    [GoogleController::class,
+                                    'handleGoogleCallback']);</code>
+                                <button class="copy-btn"
+                                    data-code="use App\Http\Controllers\GoogleController;
+
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])-&gt;name('auth.google');
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="section">
+                    <h2 class="section-title">7. Add a "Login with Google"
+                        Button</h2>
+
+                    <div class="step">
+                        <div class="step-content">
+                            <h3>Update Login Blade View</h3>
+                            <p>In your login blade view
+                                (<code>resources/views/auth/login.blade.php</code>):</p>
+                            <div class="code-block">
+                                <code>&lt;a
+                                    href="{{ route('auth.google') }}"&gt;
+                                    &lt;img
+                                    src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png"
+                                    alt="Sign in with Google"&gt;
+                                    &lt;/a&gt;</code>
+                                <button class="copy-btn"
+                                    data-code="&lt;a href=&quot;{{ route('auth.google') }}&quot;&gt;
+    &lt;img src=&quot;https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png&quot; alt=&quot;Sign in with Google&quot;&gt;
+&lt;/a&gt;">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tip">
+                        <h3><i class="fas fa-lightbulb"></i> Final Step</h3>
+                        <p>Run your Laravel application. This setup allows users
+                            to authenticate via their Gmail account seamlessly
+                            in your Laravel app.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 Laravel Google Auth Tutorial | PHP Web Development</p>
+        </div>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add copy functionality to all copy buttons
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const code = this.getAttribute('data-code');
+                    
+                    // Create a temporary textarea to hold the code
+                    const textarea = document.createElement('textarea');
+                    textarea.value = code;
+                    document.body.appendChild(textarea);
+                    
+                    // Select and copy the text
+                    textarea.select();
+                    document.execCommand('copy');
+                    
+                    // Remove the textarea
+                    document.body.removeChild(textarea);
+                    
+                    // Change button text to indicate success
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    this.classList.add('copied');
+                    
+                    // Revert after 2 seconds
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.classList.remove('copied');
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+    </body>
+</html>

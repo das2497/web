@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Multi-Auth Implementation in Laravel</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        min-height: 100vh;
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #2d3748;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1000px;
+        width: 100%;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin-bottom: 30px;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #ff2d20 0%, #b21f2d 100%);
+        padding: 40px;
+        text-align: center;
+        color: white;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .content {
+        padding: 40px;
+      }
+
+      .section {
+        margin-bottom: 40px;
+        position: relative;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+        color: #ff2d20;
+        margin-bottom: 20px;
+        font-weight: 600;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      .step {
+        margin-bottom: 30px;
+        position: relative;
+        padding-left: 40px;
+      }
+
+      .step-number {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        background: #ff2d20;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+
+      .step-content {
+        background: #f8fafc;
+        border-left: 4px solid #ff2d20;
+        border-radius: 0 8px 8px 0;
+        padding: 20px;
+      }
+
+      .step h3 {
+        font-size: 1.3rem;
+        color: #2d3748;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .step p {
+        margin-bottom: 15px;
+        color: #4a5568;
+      }
+
+      .code-block {
+        background: #2d3748;
+        color: #e2e8f0;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+        overflow-x: auto;
+        font-family: "Fira Code", monospace;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        position: relative;
+        padding-right: 70px;
+      }
+
+      .code-block code {
+        display: block;
+      }
+
+      .copy-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      .copy-btn.copied {
+        background: #48bb78;
+      }
+
+      .divider {
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #ff2d20, transparent);
+        margin: 40px 0;
+        border: none;
+      }
+
+      .tip {
+        background: #ffeaa7;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+        border-left: 4px solid #fdcb6e;
+      }
+
+      .tip h3 {
+        color: #d35400;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+      }
+
+      .tip h3 i {
+        margin-right: 10px;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 20px;
+        color: #718096;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        .header {
+          padding: 30px 20px;
+        }
+
+        .header h1 {
+          font-size: 2rem;
+        }
+
+        .content {
+          padding: 30px 20px;
+        }
+
+        .step {
+          padding-left: 0;
+        }
+
+        .step-number {
+          position: static;
+          margin-bottom: 15px;
+          display: inline-block;
+        }
+
+        .code-block {
+          padding: 15px;
+          padding-right: 60px;
+        }
+
+        .copy-btn {
+          top: 10px;
+          right: 10px;
+          padding: 5px 10px;
+          font-size: 0.8rem;
+        }
+      }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Multi-Auth Implementation in Laravel</h1>
+                <p>
+                    Step-by-step guide to implementing multiple authentication
+                    systems
+                </p>
+            </div>
+
+            <div class="content">
+                <div class="section">
+                    <h2 class="section-title">Create Project</h2>
+                    <div class="code-block">
+                        <code>composer create-project --prefer-dist
+                            laravel/Laravel
+                            [name]</code>
+                        <button
+                            class="copy-btn"
+                            data-code="composer create-project --prefer-dist laravel/Laravel [name]">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+
+                <hr class="divider" />
+
+                <div class="section">
+                    <h2 class="section-title">Install Laravel Breeze</h2>
+                    <div class="code-block">
+                        <code>composer require laravel/breeze --dev</code>
+                        <button
+                            class="copy-btn"
+                            data-code="composer require laravel/breeze --dev">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+
+                    <div class="code-block">
+                        <code>php artisan breeze:install blade</code>
+                        <button
+                            class="copy-btn"
+                            data-code="php artisan breeze:install blade">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+
+                    <div class="code-block">
+                        <code>php artisan migrate</code>
+                        <button class="copy-btn"
+                            data-code="php artisan migrate">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+
+                    <div class="code-block">
+                        <code>npm install</code>
+                        <button class="copy-btn" data-code="npm install">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+
+                    <div class="code-block">
+                        <code>npm run dev</code>
+                        <button class="copy-btn" data-code="npm run dev">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+
+                <hr class="divider" />
+
+                <div class="section">
+                    <h2 class="section-title">Implementation Steps</h2>
+
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>User Migration - Add the "role" column</h3>
+                            <p>Add a role column to your users table
+                                migration:</p>
+                            <div class="code-block">
+                                <code>$table->enum('role',
+                                    ['admin','user'])->default('user');</code>
+                                <button
+                                    class="copy-btn"
+                                    data-code="$table->enum('role', ['admin', 'user'])->default('user');">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Edit RegisteredUserController</h3>
+                            <p>Modify the create method to include the role
+                                field:</p>
+                            <div class="code-block">
+                                <code>
+                                    protected function create(array $data) {
+                                    <br> return User::create([ 'name' =>
+                                    $data['name'],
+                                    <br> 'email' => $data['email'],
+                                    <br> 'password' =>
+                                    Hash::make($data['password']),
+                                    <br> 'role' => $data['role'], ]);
+                                    <br> }
+                                </code>
+                                <button
+                                    class="copy-btn"
+                                    data-code="protected function create(array $data)
+{
+    return User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+        'role' => $data['role'],
+    ]);
+}">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Edit AuthenticatedSessionController</h3>
+                            <p>Modify the login redirect logic based on user
+                                role like this.</p>
+                            <div class="code-block">
+                                <code>
+                                    if (Auth::user()->role === 'admin') {
+                                    <br> return redirect('/admin/dashboard');
+                                    <br> } elseif (Auth::user()->role == 'user')
+                                    {
+                                    <br> return redirect('/user/dashboard');
+                                    <br> } else {
+                                    <br> return redirect('/');
+                                    <br> }
+                                </code>
+                                <button
+                                    class="copy-btn"
+                                    data-code="if (Auth::user()->role === 'admin') {
+    return redirect('/admin/dashboard');
+} elseif (Auth::user()->role === 'user') {
+    return redirect('/user/dashboard');
+} else {
+    return redirect('/');
+}">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Create Login Middleware</h3>
+                            <p>Create middleware to check if user is logged
+                                in:</p>
+                            <div class="code-block">
+                                <code>php artisan make:middleware Login</code>
+                                <button
+                                    class="copy-btn"
+                                    data-code="php artisan make:middleware Login">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            <p>Create other user middlewares (e.g., Admin,
+                                User):</p>
+                            <div class="code-block">
+                                <code>
+                                    php artisan make:middleware Admin
+                                </code>
+                                <button
+                                    class="copy-btn"
+                                    data-code="php artisan make:middleware Admin">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            <div class="code-block">
+                                <code>
+                                    php artisan make:middleware User
+                                </code>
+                                <button
+                                    class="copy-btn"
+                                    data-code="php artisan make:middleware User">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3>Bootstrap => app.php</h3>
+                            <p>Register your middleware in
+                                app/Http/Kernel.php:</p>
+                            <div class="code-block">
+                                <code>
+                                    protected $middlewareAliases = [
+                                    <br> 'login' =>
+                                    \App\Http\Middleware\Login::class,
+                                    <br> 'admin' =>
+                                    \App\Http\Middleware\Admin::class,
+                                    <br> 'user' =>
+                                    \App\Http\Middleware\User::class,
+                                    <br> ];
+                                </code>
+                                <button
+                                    class="copy-btn"
+                                    data-code="protected $middlewareAliases = [
+    'login' => \App\Http\Middleware\Login::class,
+    'admin' => \App\Http\Middleware\Admin::class,
+    'user' => \App\Http\Middleware\User::class,
+];">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 Laravel Multi-Auth Tutorial | PHP Web Development</p>
+        </div>
+
+        <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Add copy functionality to all copy buttons
+        const copyButtons = document.querySelectorAll(".copy-btn");
+
+        copyButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const code = this.getAttribute("data-code");
+
+            // Create a temporary textarea to hold the code
+            const textarea = document.createElement("textarea");
+            textarea.value = code;
+            document.body.appendChild(textarea);
+
+            // Select and copy the text
+            textarea.select();
+            document.execCommand("copy");
+
+            // Remove the textarea
+            document.body.removeChild(textarea);
+
+            // Change button text to indicate success
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            this.classList.add("copied");
+
+            // Revert after 2 seconds
+            setTimeout(() => {
+              this.innerHTML = originalText;
+              this.classList.remove("copied");
+            }, 2000);
+          });
+        });
+      });
+    </script>
+    </body>
+</html>
